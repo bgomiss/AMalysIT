@@ -17,7 +17,7 @@
 		1C77A2922BF365FD00708602 /* SellerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C77A2912BF365FD00708602 /* SellerViewModel.swift */; };
 		1C77A2942BF3661F00708602 /* SellerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C77A2932BF3661F00708602 /* SellerModel.swift */; };
 		1C77A2962BF36B8400708602 /* URLImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C77A2952BF36B8400708602 /* URLImageViewModel.swift */; };
-		1C77A2982BF36E3F00708602 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C77A2972BF36E3F00708602 /* Constants.swift */; };
+		1C77A2982BF36E3F00708602 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C77A2972BF36E3F00708602 /* API.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +32,7 @@
 		1C77A2912BF365FD00708602 /* SellerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerViewModel.swift; sourceTree = "<group>"; };
 		1C77A2932BF3661F00708602 /* SellerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerModel.swift; sourceTree = "<group>"; };
 		1C77A2952BF36B8400708602 /* URLImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageViewModel.swift; sourceTree = "<group>"; };
-		1C77A2972BF36E3F00708602 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1C77A2972BF36E3F00708602 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +97,7 @@
 				1C5FBC2A2BF65A500041CFE4 /* Views */,
 				1C5FBC292BF65A390041CFE4 /* Models */,
 				1C77A2832BF35E2E00708602 /* AMalysITApp.swift */,
-				1C77A2972BF36E3F00708602 /* Constants.swift */,
+				1C77A2972BF36E3F00708602 /* API.swift */,
 				1C77A2872BF35E3000708602 /* Assets.xcassets */,
 				1C77A2892BF35E3000708602 /* Preview Content */,
 			);
@@ -190,7 +190,7 @@
 				1C5FBC2D2BF65B1C0041CFE4 /* ProductView.swift in Sources */,
 				1C77A2942BF3661F00708602 /* SellerModel.swift in Sources */,
 				1C5FBC2F2BF65B460041CFE4 /* ProductViewModel.swift in Sources */,
-				1C77A2982BF36E3F00708602 /* Constants.swift in Sources */,
+				1C77A2982BF36E3F00708602 /* API.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
