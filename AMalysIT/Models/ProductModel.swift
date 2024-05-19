@@ -2,7 +2,7 @@
 //  ProductModel.swift
 //  AMalysIT
 //
-//  Created by aycan duskun on 16.05.2024.
+//  Created by aycan duskun on 16.05.2024..
 //
 
 import Foundation
