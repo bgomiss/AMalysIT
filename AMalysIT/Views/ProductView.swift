@@ -10,26 +10,15 @@ import SwiftUI
     struct ProductView: View {
         
         @StateObject var viewModel = ProductViewModel()
-
+        
+        
         var body: some View {
             NavigationStack {
                 List {
-                    if let products = viewModel.analysis?.products {
-                        ForEach(products, id: \.self) { product in
-
-                            VStack {
-                                HStack {
-                                    Text(product.size)
-                                        .bold()
-                                    Spacer()
-                                    URLImage(urlString: product.imageUrls!)
-                                    //Text(product.title)
-                                }
-                                .padding(3)
-                                // Additional product details can be displayed here
-                            }
-                        }
-                        
+                    if let productDetails = viewModel.productDetails, !productDetails.imagesCSV.isEmpty {
+                        let imageUrls = productDetails.imagesCSV.split(separator: ",").map { "https://images-na.ssl-images-amazon.com/images/I/\($0.trimmingCharacters(in: .whitespaces))" }
+                        URLImage(urlStrings: imageUrls)
+                            .frame(height: 120)
                     } else {
                         Text("Loading products...")
                     }

@@ -9,30 +9,44 @@ import SwiftUI
 import Charts
 
 struct URLImage: View {
-    let urlString: String
+    let urlStrings: [String]
     
-    @State var data: Data?
+    @State var data: [Data?] = []
     @StateObject var viewModel = URLImageViewModel()
     
+    init(urlStrings: [String]) {
+           self.urlStrings = urlStrings
+           self._data = State(initialValue: Array(repeating: nil, count: urlStrings.count))
+       }
+    
     var body: some View {
-        if let data = data, let uiimage = UIImage(data: data) {
-            Image(uiImage: uiimage)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 100)
-                .background(Color.gray)
-        }
-        else {
-            Image(systemName: "arrow")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 100)
-                .background(Color.gray)
-                .onAppear {
-                    viewModel.fetchData()
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack{
+                ForEach(urlStrings.indices, id: \.self) { index in
+                    if let data = data[index], let uiimage = UIImage(data: data) {
+                        Image(uiImage: uiimage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 100)
+                            .background(Color.gray)
+                            .cornerRadius(8)
+                    }
+                    else {
+                        Image(systemName: "arrow")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 100)
+                            .background(Color.gray)
+                            .cornerRadius(8)
+                            .onAppear {
+                                viewModel.fetchData(at: index, urlString: urlStrings[index])
+                            }
+                    }
                 }
+                }
+            }
         }
-    }
+        
        
 }
 

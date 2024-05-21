@@ -10,10 +10,14 @@ import Foundation
 class URLImageViewModel: ObservableObject {
     let urlImage: URLImage? = nil
     
-    func fetchData() {
-        guard let url = URL(string: urlImage?.urlString ?? "") else { return }
+    func fetchData(at index: Int, urlString: String) {
+        guard let url = URL(string: urlString) else { return }
         let task = URLSession.shared.dataTask(with: url) { data, _, _ in
-            self.urlImage?.data = data
+            DispatchQueue.main.async {
+                if index < self.urlImage?.data.count ?? 0 {
+                    self.urlImage?.data[index] = data
+                }
+            }
         }
         task.resume()
     }

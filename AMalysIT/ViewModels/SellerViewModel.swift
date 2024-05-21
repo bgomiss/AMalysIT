@@ -11,7 +11,7 @@ class SellerViewModel: ObservableObject {
     @Published var analysis: SellerModel?
     
     func fetch() {
-        guard let url = URL(string: "https://api.keepa.com/seller?key=\(Api.apiKey)&domain=1&type=product&seller=A2QE71HEBJRNZE") else  { return }
+        guard let url = URL(string: "https://api.keepa.com/seller?key=\(API.apiKey)&domain=1&type=product&seller=A2QE71HEBJRNZE") else  { return }
         
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             

@@ -8,10 +8,12 @@
 import Foundation
 
 class ProductViewModel: ObservableObject {
+    
     @Published var analysis: ProductModel?
+    @Published var productDetails: ProductDetails?
     
     func fetch() {
-        guard let url = URL(string: "https://api.keepa.com/search?key=\(Api.apiKey)&domain=2&type=product&term=lotion&page=0") else  { return }
+        guard let url = URL(string: "https://api.keepa.com/search?key=\(API.apiKey)&domain=2&type=product&term=lotion&page=0") else  { return }
 
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             
