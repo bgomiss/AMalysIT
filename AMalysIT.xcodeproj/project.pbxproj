@@ -18,6 +18,7 @@
 		1C77A2942BF3661F00708602 /* SellerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C77A2932BF3661F00708602 /* SellerModel.swift */; };
 		1C77A2962BF36B8400708602 /* URLImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C77A2952BF36B8400708602 /* URLImageViewModel.swift */; };
 		1C77A2982BF36E3F00708602 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C77A2972BF36E3F00708602 /* API.swift */; };
+		1C853BC62BFFDEC700F559E3 /* URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C853BC52BFFDEC700F559E3 /* URLImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		1C77A2932BF3661F00708602 /* SellerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerModel.swift; sourceTree = "<group>"; };
 		1C77A2952BF36B8400708602 /* URLImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageViewModel.swift; sourceTree = "<group>"; };
 		1C77A2972BF36E3F00708602 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		1C853BC52BFFDEC700F559E3 /* URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			children = (
 				1C77A2852BF35E2E00708602 /* ContentView.swift */,
 				1C5FBC2C2BF65B1C0041CFE4 /* ProductView.swift */,
+				1C853BC52BFFDEC700F559E3 /* URLImage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				1C5FBC312BF65B760041CFE4 /* ProductModel.swift in Sources */,
 				1C5FBC2D2BF65B1C0041CFE4 /* ProductView.swift in Sources */,
 				1C77A2942BF3661F00708602 /* SellerModel.swift in Sources */,
+				1C853BC62BFFDEC700F559E3 /* URLImage.swift in Sources */,
 				1C5FBC2F2BF65B460041CFE4 /* ProductViewModel.swift in Sources */,
 				1C77A2982BF36E3F00708602 /* API.swift in Sources */,
 			);

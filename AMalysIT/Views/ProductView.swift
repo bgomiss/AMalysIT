@@ -16,9 +16,12 @@ import SwiftUI
             NavigationStack {
                 List {
                     if let productDetails = viewModel.productDetails, !productDetails.imagesCSV.isEmpty {
-                        let imageUrls = productDetails.imagesCSV.split(separator: ",").map { "https://images-na.ssl-images-amazon.com/images/I/\($0.trimmingCharacters(in: .whitespaces))" }
+                        let imageUrls = productDetails.imageUrls
                         URLImage(urlStrings: imageUrls)
                             .frame(height: 120)
+                        
+                        Text(productDetails.brand)
+                        Text(productDetails.title)
                     } else {
                         Text("Loading products...")
                     }

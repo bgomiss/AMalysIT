@@ -19,7 +19,8 @@ struct ProductModel: Hashable, Codable {
     let products: [ProductDetails]
     }
 
-struct ProductDetails: Hashable, Codable {
+struct ProductDetails: Hashable, Codable, Identifiable {
+    var id: String { asin }
     let imagesCSV: String
     let title: String
     let type: String
@@ -34,10 +35,10 @@ struct ProductDetails: Hashable, Codable {
     let description: String
     let variations: [Variation]?
     
-    var imageUrls: String? {
+    var imageUrls: [String] {
             // Base URL for the images
             let baseUrl = "https://images-na.ssl-images-amazon.com/images/I/"
-        return imagesCSV.split(separator: ",").first.map { baseUrl + String($0) }
+            return imagesCSV.split(separator: ",").map { baseUrl + $0.trimmingCharacters(in: .whitespaces) }
         }
     }
 

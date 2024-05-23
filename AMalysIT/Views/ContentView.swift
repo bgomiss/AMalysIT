@@ -8,48 +8,6 @@
 import SwiftUI
 import Charts
 
-struct URLImage: View {
-    let urlStrings: [String]
-    
-    @State var data: [Data?] = []
-    @StateObject var viewModel = URLImageViewModel()
-    
-    init(urlStrings: [String]) {
-           self.urlStrings = urlStrings
-           self._data = State(initialValue: Array(repeating: nil, count: urlStrings.count))
-       }
-    
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack{
-                ForEach(urlStrings.indices, id: \.self) { index in
-                    if let data = data[index], let uiimage = UIImage(data: data) {
-                        Image(uiImage: uiimage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 100)
-                            .background(Color.gray)
-                            .cornerRadius(8)
-                    }
-                    else {
-                        Image(systemName: "arrow")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 100, height: 100)
-                            .background(Color.gray)
-                            .cornerRadius(8)
-                            .onAppear {
-                                viewModel.fetchData(at: index, urlString: urlStrings[index])
-                            }
-                    }
-                }
-                }
-            }
-        }
-        
-       
-}
-
 
 
 struct ContentView: View {
@@ -111,6 +69,15 @@ struct ContentView: View {
             .onAppear {
                 viewModel.fetch()
             }
+            
+            NavigationLink(destination: ProductView()) {
+                                Text("Go to Product View")
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .background(Color.blue)
+                                    .cornerRadius(8)
+                            }
+            Spacer()
            
             }
         }

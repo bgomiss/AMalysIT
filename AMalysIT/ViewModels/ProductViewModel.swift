@@ -18,12 +18,13 @@ class ProductViewModel: ObservableObject {
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             
             guard let data = data, error == nil else { return }
-            
+        
             // Convert to JSON
             do {
                 let product = try JSONDecoder().decode(ProductModel.self, from: data)
                 DispatchQueue.main.async {
                     self?.analysis = product
+                    self?.productDetails = product.products.first
                 }
             } catch {
                 print(error)

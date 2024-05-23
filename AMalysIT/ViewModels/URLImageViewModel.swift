@@ -6,19 +6,28 @@
 //
 
 import Foundation
+import SwiftUI
 
 class URLImageViewModel: ObservableObject {
-    let urlImage: URLImage? = nil
+    @Published var data: [Data?] = []
     
-    func fetchData(at index: Int, urlString: String) {
-        guard let url = URL(string: urlString) else { return }
-        let task = URLSession.shared.dataTask(with: url) { data, _, _ in
-            DispatchQueue.main.async {
-                if index < self.urlImage?.data.count ?? 0 {
-                    self.urlImage?.data[index] = data
+    init(urlStrings: [String]) {
+        self.data = Array(repeating: nil, count: urlStrings.count)
+        fetchData(for: urlStrings)
+    }
+    
+    private func fetchData(for urlStrings: [String]) {
+        for (index, urlString) in urlStrings.enumerated() {
+            guard let url = URL(string: urlString) else { continue }
+            let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
+                DispatchQueue.main.async {
+                    if index < self?.data.count ?? 0 {
+                        self?.data[index] = data
+                    }
                 }
             }
+            task.resume()
         }
-        task.resume()
     }
 }
+
