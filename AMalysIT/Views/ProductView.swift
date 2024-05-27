@@ -15,18 +15,30 @@ import SwiftUI
         var body: some View {
             NavigationStack {
                 List {
-                    if let productDetails = viewModel.productDetails, !productDetails.imagesCSV.isEmpty {
-                        let imageUrls = productDetails.imageUrls
-                        URLImage(urlStrings: imageUrls)
-                            .frame(height: 120)
-                        
-                        Text(productDetails.brand)
-                        Text(productDetails.title)
+                    if let productDetailsArray = viewModel.productDetails {
+                        ForEach(productDetailsArray, id: \.asin) { productDetails in
+                            
+                            if !productDetails.imagesCSV.isEmpty {
+                                let imageUrls = productDetails.imageUrls
+                                URLImage(urlStrings: imageUrls)
+                                    .frame(height: 120)
+                                
+                                Text(productDetails.brand)
+                                Text(productDetails.title)
+                        }
+                    }
+                   
                     } else {
                         Text("Loading products...")
                     }
                 }
-                .navigationTitle("AMAZON")
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        CustomNavigationBarTitle()
+                    }
+                }
+                .navigationTitle("")
+                .navigationBarTitleDisplayMode(.inline)
                 .onAppear {
                     viewModel.fetch()
                 }

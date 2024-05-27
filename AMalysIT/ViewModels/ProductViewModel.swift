@@ -10,7 +10,7 @@ import Foundation
 class ProductViewModel: ObservableObject {
     
     @Published var analysis: ProductModel?
-    @Published var productDetails: ProductDetails?
+    @Published var productDetails: [ProductDetails]?
     
     func fetch() {
         guard let url = URL(string: "https://api.keepa.com/search?key=\(API.apiKey)&domain=2&type=product&term=lotion&page=0") else  { return }
@@ -24,7 +24,7 @@ class ProductViewModel: ObservableObject {
                 let product = try JSONDecoder().decode(ProductModel.self, from: data)
                 DispatchQueue.main.async {
                     self?.analysis = product
-                    self?.productDetails = product.products.first
+                    self?.productDetails = product.products
                 }
             } catch {
                 print(error)
