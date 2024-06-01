@@ -16,7 +16,7 @@ import SwiftUI
             NavigationStack {
                 List {
                     if let productDetailsArray = viewModel.productDetails {
-                        ForEach(productDetailsArray, id: \.asin) { productDetails in
+                        ForEach(productDetailsArray, id: \.self) { productDetails in
                             
                             if !productDetails.imagesCSV.isEmpty {
                                 let imageUrls = productDetails.imageUrls
@@ -40,7 +40,7 @@ import SwiftUI
                 .navigationTitle("")
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear {
-                    viewModel.fetch()
+                    viewModel.fetch(for: .productSearch)
                 }
             }
         }

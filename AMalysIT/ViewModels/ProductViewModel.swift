@@ -12,8 +12,21 @@ class ProductViewModel: ObservableObject {
     @Published var analysis: ProductModel?
     @Published var productDetails: [ProductDetails]?
     
-    func fetch() {
-        guard let url = URL(string: "https://api.keepa.com/search?key=\(API.apiKey)&domain=2&type=product&term=lotion&page=0") else  { return }
+    enum EndPoint {
+        case productSearch
+        case imageGraph
+        var url: String {
+            switch self {
+            case .productSearch:
+                return "https://api.keepa.com/search?key=\(API.apiKey)&domain=2&type=product&term=lotion&page=0"
+            case .imageGraph:
+                return "https://api.keepa.com/search?key=\(API.apiKey)&domain=2&type=product&term=lotion&page=1"
+            }
+        }
+    }
+    
+    func fetch(for endpoint: EndPoint) {
+        guard let url = URL(string: endpoint.url) else  { return }
 
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             
@@ -21,10 +34,20 @@ class ProductViewModel: ObservableObject {
         
             // Convert to JSON
             do {
-                let product = try JSONDecoder().decode(ProductModel.self, from: data)
-                DispatchQueue.main.async {
-                    self?.analysis = product
-                    self?.productDetails = product.products
+                switch endpoint {
+                case .productSearch:
+                    let product = try JSONDecoder().decode(ProductModel.self, from: data)
+                    DispatchQueue.main.async {
+                        self?.analysis = product
+                        self?.productDetails = product.products
+                    }
+                case .imageGraph:
+                    let product = try JSONDecoder().decode(ProductModel.self, from: data)
+                    DispatchQueue.main.async {
+                        self?.analysis = product
+                        self?.productDetails = product.products
+                    }
+                    
                 }
             } catch {
                 print(error)

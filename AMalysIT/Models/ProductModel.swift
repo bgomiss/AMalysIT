@@ -19,8 +19,8 @@ struct ProductModel: Hashable, Codable {
     let products: [ProductDetails]
     }
 
-struct ProductDetails: Hashable, Codable, Identifiable {
-    var id: String { asin }
+struct ProductDetails: Hashable, Codable {
+    //var id: String { asin }
     let imagesCSV: String
     let title: String
     let type: String
