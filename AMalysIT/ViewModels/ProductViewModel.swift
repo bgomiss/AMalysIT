@@ -11,16 +11,18 @@ class ProductViewModel: ObservableObject {
     
     @Published var analysis: ProductModel?
     @Published var productDetails: [ProductDetails]?
+    @Published var graphImageUrlStrings: [String:String] = [:]
+
     
     enum EndPoint {
         case productSearch
-        case imageGraph
+        case imageGraph(GraphImageParameters)
         var url: String {
             switch self {
             case .productSearch:
                 return "https://api.keepa.com/search?key=\(API.apiKey)&domain=2&type=product&term=lotion&page=0"
-            case .imageGraph:
-                return "https://api.keepa.com/search?key=\(API.apiKey)&domain=2&type=product&term=lotion&page=1"
+            case .imageGraph(let parameters):
+                return "https://api.keepa.com/graphimage?key=\(API.apiKey)&domain=2&asin=\(parameters.asin)&fba=1&bb=1"
             }
         }
     }
@@ -41,13 +43,12 @@ class ProductViewModel: ObservableObject {
                         self?.analysis = product
                         self?.productDetails = product.products
                     }
-                case .imageGraph:
-                    let product = try JSONDecoder().decode(ProductModel.self, from: data)
+                case .imageGraph(let parameters):
                     DispatchQueue.main.async {
-                        self?.analysis = product
-                        self?.productDetails = product.products
+                        if let imageUrlString = self?.saveImageToTemporaryDirectory(data: data) {
+                            self?.graphImageUrlStrings[parameters.asin] = imageUrlString
+                        }
                     }
-                    
                 }
             } catch {
                 print(error)
@@ -55,4 +56,18 @@ class ProductViewModel: ObservableObject {
         }
         task.resume()
     }
+    
+    private func saveImageToTemporaryDirectory(data: Data) -> String? {
+            let temporaryDirectory = FileManager.default.temporaryDirectory
+            let fileName = UUID().uuidString + ".png"
+            let fileURL = temporaryDirectory.appendingPathComponent(fileName)
+
+            do {
+                try data.write(to: fileURL)
+                return fileURL.absoluteString
+            } catch {
+                print("Error saving image to temporary directory: \(error)")
+                return nil
+            }
+        }
 }
