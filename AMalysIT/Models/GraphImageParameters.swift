@@ -11,4 +11,5 @@ struct GraphImageParameters {
     let asin: String
     let fba: String? = nil
     let bb: String? = nil
+    let query: String? = nil
 }

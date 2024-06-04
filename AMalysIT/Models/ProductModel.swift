@@ -26,14 +26,15 @@ struct ProductDetails: Hashable, Codable {
     let type: String
     let asin: String
     let hasReviews: Bool
-    let brand: String
-    let size: String
+    let brand: String?
+    let size: String?
     let color: String?
     let numberOfItems: Int
     let frequentlyBoughtTogether: [String]?
     let features: [String]
-    let description: String
+    let description: String?
     let variations: [Variation]?
+    let stats: Stats?
     
     var imageUrls: [String] {
             // Base URL for the images
@@ -45,6 +46,10 @@ struct ProductDetails: Hashable, Codable {
 struct Variation: Hashable, Codable {
     let asin: String
     let attributes: [Attribute]
+}
+
+struct Stats: Hashable, Codable {
+    let buyBoxPrice: Int
 }
 
 struct Attribute: Hashable, Codable {

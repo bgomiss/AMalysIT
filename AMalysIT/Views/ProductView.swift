@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProductView: View {
     @StateObject var viewModel = ProductViewModel()
-    @State var parameters: GraphImageParameters? = nil
+    @State var parameters: GraphImageParameters?
     
     var body: some View {
         NavigationStack {
@@ -24,13 +24,14 @@ struct ProductView: View {
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                viewModel.fetch(for: .productSearch)
-                }
-            .onChange(of: viewModel.productDetails ?? [], initial: true) { _ ,newProductDetails in
-                    fetchImages(for: newProductDetails)
-                }
+                viewModel.fetch(for: .productSearch("mouse"))
+            }
+            .onChange(of: viewModel.productDetails ?? []) { _ ,newProductDetails in
+                fetchImages(for: newProductDetails)
+                viewModel.fetch(for: .singleProductDetails(parameters ?? GraphImageParameters(asin: "B00ROXCLJ4")))
             }
         }
+    }
     
     private var productDetailsSection: some View {
         Group {
@@ -41,7 +42,8 @@ struct ProductView: View {
                             let imageUrls = productDetails.imageUrls
                             URLImage(urlStrings: imageUrls)
                                 .frame(height: 120)
-                            Text(productDetails.brand)
+                            Text("")
+                            Text(productDetails.brand ?? "")
                             Text(productDetails.title)
                             
                         }
@@ -50,22 +52,39 @@ struct ProductView: View {
                                 .frame(height: 100)
                                 .padding()
                         }
+                        
+//                        if let singleProduct = viewModel.singleProductAnalysis {
+//                            ForEach(singleProduct, id: \.self) { product in
+//                                let buyBoxPrice = product.stats?.buyBoxPrice
+//                                Text("Price is: \(String(buyBoxPrice ?? 0))")
+//                            }
+//                        }
+                        
                     }
-                        }
-                    } else {
+                }
+            }  else {
                 Text("Loading products...")
             }
         }
     }
     
+    
     private func fetchImages(for productDetails: [ProductDetails]) {
         for product in productDetails {
-            let parameters = GraphImageParameters(asin: product.asin)
-            viewModel.fetch(for: .imageGraph(parameters))
+            parameters = GraphImageParameters(asin: product.asin)
+            viewModel.fetch(for: .imageGraph(parameters ?? GraphImageParameters(asin: "B00ROXCLJ4")))
         }
     }
-}
+//        private func fetchProductFeatures(for productDetails: [ProductDetails]) {
+//                for asin in productDetails {
+//                    let asin = GraphImageParameters(asin: asin.asin)
+//            viewModel.fetch(for: .singleProductDetails(parameters!))
+//                }
+//            }
+       }
 
-#Preview {
-    ProductView()
-}
+    
+    #Preview {
+        ProductView()
+    }
+
