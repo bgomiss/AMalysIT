@@ -28,7 +28,7 @@ struct ProductView: View {
             }
             .onChange(of: viewModel.productDetails ?? []) { _ ,newProductDetails in
                 fetchImages(for: newProductDetails)
-                viewModel.fetch(for: .singleProductDetails(parameters ?? GraphImageParameters(asin: "B00ROXCLJ4")))
+                //viewModel.fetch(for: .singleProductDetails(parameters ?? GraphImageParameters(asin: "B00ROXCLJ4")))
             }
         }
     }
@@ -53,12 +53,12 @@ struct ProductView: View {
                                 .padding()
                         }
                         
-//                        if let singleProduct = viewModel.singleProductAnalysis {
-//                            ForEach(singleProduct, id: \.self) { product in
-//                                let buyBoxPrice = product.stats?.buyBoxPrice
-//                                Text("Price is: \(String(buyBoxPrice ?? 0))")
-//                            }
-//                        }
+                        if let singleProduct = viewModel.singleProductAnalysis {
+                            ForEach(singleProduct, id: \.self) { product in
+                                let buyBoxPrice = product.stats?.buyBoxPrice
+                                Text("Price is: \(String(buyBoxPrice ?? 0))")
+                            }
+                        }
                         
                     }
                 }
@@ -73,6 +73,7 @@ struct ProductView: View {
         for product in productDetails {
             parameters = GraphImageParameters(asin: product.asin)
             viewModel.fetch(for: .imageGraph(parameters ?? GraphImageParameters(asin: "B00ROXCLJ4")))
+            viewModel.fetch(for: .singleProductDetails(parameters!))
         }
     }
 //        private func fetchProductFeatures(for productDetails: [ProductDetails]) {
