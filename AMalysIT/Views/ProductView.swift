@@ -24,7 +24,7 @@ struct ProductView: View {
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                viewModel.fetch(for: .productSearch("mouse"))
+                viewModel.fetch(for: .productSearch("remedy"))
             }
             .onChange(of: viewModel.productDetails ?? []) { _ ,newProductDetails in
                 fetchImages(for: newProductDetails)
@@ -53,13 +53,12 @@ struct ProductView: View {
                                 .padding()
                         }
                         
-                        if let singleProduct = viewModel.singleProductAnalysis {
-                            ForEach(singleProduct, id: \.self) { product in
-                                let buyBoxPrice = product.stats?.buyBoxPrice
-                                Text("Price is: \(String(buyBoxPrice ?? 0))")
+                        if let singleProduct = viewModel.singleProductAnalysis[productDetails.asin] {
+                            let buyBoxPrice = singleProduct.stats?.buyBoxPrice
+                            if let price = buyBoxPrice {
+                                Text("Price is: \(Helper.formattedPrice(from: price))")
                             }
                         }
-                        
                     }
                 }
             }  else {

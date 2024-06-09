@@ -10,8 +10,7 @@ import Foundation
 class ProductViewModel: ObservableObject {
     
     @Published var analysis: ProductModel?
-    @Published var singleProductAnalysis: [ProductDetails]?
-    @Published var singleProduct: ProductModel?
+    @Published var singleProductAnalysis: [String:ProductDetails] = [:]
     @Published var productDetails: [ProductDetails]?
     @Published var graphImageUrlStrings: [String:String] = [:]
 
@@ -54,11 +53,12 @@ class ProductViewModel: ObservableObject {
                             self?.graphImageUrlStrings[parameters.asin] = imageUrlString
                         }
                     }
-                case .singleProductDetails(_):
+                case .singleProductDetails(let asin):
                     let singleProduct = try JSONDecoder().decode(ProductModel.self, from: data)
-                    DispatchQueue.main.async {
-                        self?.singleProduct = singleProduct
-                        self?.singleProductAnalysis = singleProduct.products
+                    if let productDetail = singleProduct.products.first {
+                        DispatchQueue.main.async {
+                            self?.singleProductAnalysis[asin.asin] = productDetail
+                        }
                     }
                 }
             } catch {

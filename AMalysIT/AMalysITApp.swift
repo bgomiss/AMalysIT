@@ -11,7 +11,7 @@ import SwiftUI
 struct AMalysITApp: App {
     var body: some Scene {
         WindowGroup {
-            ProductView()
+            ChartView()
         }
     }
 }
