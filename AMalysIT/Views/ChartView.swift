@@ -16,7 +16,7 @@ struct ChartView: View {
     var body: some View {
         VStack {
             if let selectedDate = selectedDate, let selectedPrice = selectedPrice {
-                Text("Selected Date: \(selectedDate, formatter: dateFormatter)")
+                Text("Selected Date: \(selectedDate, formatter: Helper.dateFormatter)")
                 Text("Selected Price: \(selectedPrice, specifier: "%.2f")")
             }
 
@@ -70,11 +70,7 @@ struct ChartView: View {
         ]
     }
     
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter
-    }
+  
     
     private func findClosestData(to date: Date) -> ChartData? {
         chartData.min(by: { abs($0.date.timeIntervalSince1970 - date.timeIntervalSince1970) < abs($1.date.timeIntervalSince1970 - date.timeIntervalSince1970) })
@@ -84,3 +80,4 @@ struct ChartView: View {
 #Preview {
     ChartView()
 }
+

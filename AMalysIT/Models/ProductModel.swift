@@ -21,6 +21,7 @@ struct ProductModel: Hashable, Codable {
 
 struct ProductDetails: Hashable, Codable {
     //var id: String { asin }
+    let csv: [[Int]?]?
     let imagesCSV: String
     let title: String
     let type: String

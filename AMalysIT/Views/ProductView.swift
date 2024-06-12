@@ -24,7 +24,7 @@ struct ProductView: View {
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                viewModel.fetch(for: .productSearch("remedy"))
+                viewModel.fetch(for: .productSearch("lotion"))
             }
             .onChange(of: viewModel.productDetails ?? []) { _ ,newProductDetails in
                 fetchImages(for: newProductDetails)
@@ -59,6 +59,12 @@ struct ProductView: View {
                                 Text("Price is: \(Helper.formattedPrice(from: price))")
                             }
                         }
+                        
+                        if let historicalPrices = viewModel.singleProductAnalysis[productDetails.asin] {
+                            ForEach(historicalPrices.sorted(by: { $0.key < $1.key }), id: \.self) { date, price in
+                                Text("- Price: \(Helper.formattedPrice(from: price)) - Date: \(date, formatter: Helper.dateFormatter)")
+                            }
+                        }
                     }
                 }
             }  else {
@@ -73,15 +79,10 @@ struct ProductView: View {
             parameters = GraphImageParameters(asin: product.asin)
             viewModel.fetch(for: .imageGraph(parameters ?? GraphImageParameters(asin: "B00ROXCLJ4")))
             viewModel.fetch(for: .singleProductDetails(parameters!))
+            
+            }
         }
     }
-//        private func fetchProductFeatures(for productDetails: [ProductDetails]) {
-//                for asin in productDetails {
-//                    let asin = GraphImageParameters(asin: asin.asin)
-//            viewModel.fetch(for: .singleProductDetails(parameters!))
-//                }
-//            }
-       }
 
     
     #Preview {

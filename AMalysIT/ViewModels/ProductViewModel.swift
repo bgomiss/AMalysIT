@@ -13,6 +13,7 @@ class ProductViewModel: ObservableObject {
     @Published var singleProductAnalysis: [String:ProductDetails] = [:]
     @Published var productDetails: [ProductDetails]?
     @Published var graphImageUrlStrings: [String:String] = [:]
+    @Published var historicalPrices: [String: [Date:Double]] = [:]
 
     
     enum EndPoint {
@@ -58,6 +59,7 @@ class ProductViewModel: ObservableObject {
                     if let productDetail = singleProduct.products.first {
                         DispatchQueue.main.async {
                             self?.singleProductAnalysis[asin.asin] = productDetail
+                            self?.parseHistoricalPrices(for: productDetail, asin: asin.asin)
                         }
                     }
                 }
@@ -81,4 +83,25 @@ class ProductViewModel: ObservableObject {
                 return nil
             }
         }
+    
+    private func parseHistoricalPrices(for product: ProductDetails, asin: String) {
+        guard let csv = product.csv, csv.count > 0 else { return }
+        let amazonPriceHistory = csv[0]
+        var historicalPrices: [Date:Double] = [:]
+        
+        // Reverse the array and take the first 20 elements (10 dates, each date has 2 elements)
+        let recentHistory = Array(amazonPriceHistory!.reversed().prefix(20))
+        
+        for i in stride(from: 0, to: recentHistory.count, by: 2) {
+            let keepaTimeMinutes = recentHistory[i + 1]
+            let price = recentHistory[i]
+            
+            let unixTimeSeconds = (keepaTimeMinutes + 21564000) * 60
+            let date = Date(timeIntervalSince1970: TimeInterval(unixTimeSeconds))
+            let priceInDouble = Double(price) / 100
+            
+            historicalPrices[date] = priceInDouble
+        }
+        self.historicalPrices[asin] = historicalPrices
+    }
 }

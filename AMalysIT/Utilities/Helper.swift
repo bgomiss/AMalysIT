@@ -12,4 +12,10 @@ enum Helper {
            let decimalPrice = Double(price) / 100.0
            return String(format: "$%.2f", decimalPrice)
        }
+    
+    static var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter
+    }
 }
