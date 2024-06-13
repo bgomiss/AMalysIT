@@ -9,6 +9,7 @@ import SwiftUI
 import Charts
 
 struct ChartView: View {
+    @StateObject var viewModel = ProductViewModel()
     @State private var chartData: [ChartData] = []
     @State private var selectedDate: Date?
     @State private var selectedPrice: Double?
@@ -60,14 +61,27 @@ struct ChartView: View {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        chartData = [
-            ChartData(date: dateFormatter.date(from: "2024-03-16")!, price: 15.0),
-            ChartData(date: dateFormatter.date(from: "2024-04-01")!, price: 16.0),
-            ChartData(date: dateFormatter.date(from: "2024-04-16")!, price: 14.0),
-            ChartData(date: dateFormatter.date(from: "2024-05-01")!, price: 17.0),
-            ChartData(date: dateFormatter.date(from: "2024-05-16")!, price: 18.0),
-            ChartData(date: dateFormatter.date(from: "2024-06-01")!, price: 19.0)
-        ]
+        if let productDetailsArray = viewModel.productDetails {
+            
+            for productDetails in productDetailsArray {
+                if let historicalPrices = viewModel.historicalPrices[productDetails.asin] {
+                    let sortedPrices = historicalPrices.sorted(by: { $0.key < $1.key })
+                    for (date, price) in sortedPrices {
+                        let chartEntry = ChartData(date: date, price: Double(price))
+                        chartData.append(chartEntry)
+                    }
+                }
+            }
+        }
+        
+//        chartData = [
+//            ChartData(date: dateFormatter.date(from: "2024-03-16")!, price: 15.0),
+//            ChartData(date: dateFormatter.date(from: "2024-04-01")!, price: 16.0),
+//            ChartData(date: dateFormatter.date(from: "2024-04-16")!, price: 14.0),
+//            ChartData(date: dateFormatter.date(from: "2024-05-01")!, price: 17.0),
+//            ChartData(date: dateFormatter.date(from: "2024-05-16")!, price: 18.0),
+//            ChartData(date: dateFormatter.date(from: "2024-06-01")!, price: 19.0)
+//        ]
     }
     
   

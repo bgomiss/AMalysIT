@@ -13,7 +13,7 @@ class ProductViewModel: ObservableObject {
     @Published var singleProductAnalysis: [String:ProductDetails] = [:]
     @Published var productDetails: [ProductDetails]?
     @Published var graphImageUrlStrings: [String:String] = [:]
-    @Published var historicalPrices: [String: [Date:Double]] = [:]
+    @Published var historicalPrices: [String: [Date:Int]] = [:]
 
     
     enum EndPoint {
@@ -87,7 +87,7 @@ class ProductViewModel: ObservableObject {
     private func parseHistoricalPrices(for product: ProductDetails, asin: String) {
         guard let csv = product.csv, csv.count > 0 else { return }
         let amazonPriceHistory = csv[0]
-        var historicalPrices: [Date:Double] = [:]
+        var historicalPrices: [Date:Int] = [:]
         
         // Reverse the array and take the first 20 elements (10 dates, each date has 2 elements)
         let recentHistory = Array(amazonPriceHistory!.reversed().prefix(20))
@@ -98,9 +98,9 @@ class ProductViewModel: ObservableObject {
             
             let unixTimeSeconds = (keepaTimeMinutes + 21564000) * 60
             let date = Date(timeIntervalSince1970: TimeInterval(unixTimeSeconds))
-            let priceInDouble = Double(price) / 100
+            //let priceInDouble = Double(price) / 100
             
-            historicalPrices[date] = priceInDouble
+            historicalPrices[date] = price
         }
         self.historicalPrices[asin] = historicalPrices
     }

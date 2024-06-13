@@ -60,9 +60,9 @@ struct ProductView: View {
                             }
                         }
                         
-                        if let historicalPrices = viewModel.singleProductAnalysis[productDetails.asin] {
-                            ForEach(historicalPrices.sorted(by: { $0.key < $1.key }), id: \.self) { date, price in
-                                Text("- Price: \(Helper.formattedPrice(from: price)) - Date: \(date, formatter: Helper.dateFormatter)")
+                        if let historicalPrices = viewModel.historicalPrices[productDetails.asin] {
+                            ForEach(historicalPrices.sorted(by: { $0.key < $1.key }), id: \.key) { date, price in
+                                Text("Price: \(Helper.formattedPrice(from: price)) - Date: \(date, formatter: Helper.dateFormatter)")
                             }
                         }
                     }
