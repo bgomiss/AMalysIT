@@ -48,9 +48,13 @@ struct ProductView: View {
                             
                         }
                         if let graphImageUrlStrings = viewModel.graphImageUrlStrings[productDetails.asin] {
-                            URLImage(urlStrings: [graphImageUrlStrings], width: 280, height: 300, aspectRatio: .fit, backgroundColor: .clear, cornerRadius: 0)
-                                .frame(height: 100)
-                                .padding()
+                            if let historicalPrices = viewModel.historicalPrices[productDetails.asin] {
+                                NavigationLink(destination: ChartView(historicalPrices: historicalPrices)) {
+                                    URLImage(urlStrings: [graphImageUrlStrings], width: 280, height: 300, aspectRatio: .fit, backgroundColor: .clear, cornerRadius: 0)
+                                        .frame(height: 100)
+                                        .padding()
+                                }
+                            }
                         }
                         
                         if let singleProduct = viewModel.singleProductAnalysis[productDetails.asin] {

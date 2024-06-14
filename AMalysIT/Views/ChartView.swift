@@ -13,13 +13,16 @@ struct ChartView: View {
     @State private var chartData: [ChartData] = []
     @State private var selectedDate: Date?
     @State private var selectedPrice: Double?
+    @State var parameters: GraphImageParameters?
+    let historicalPrices: [Date: Int]
 
     var body: some View {
         VStack {
             if let selectedDate = selectedDate, let selectedPrice = selectedPrice {
                 Text("Selected Date: \(selectedDate, formatter: Helper.dateFormatter)")
                 Text("Selected Price: \(selectedPrice, specifier: "%.2f")")
-            }
+            } 
+
 
             Chart {
                 ForEach(chartData) { data in
@@ -48,42 +51,17 @@ struct ChartView: View {
             }
             .frame(height: 300)
             .padding()
-            
-            // Load sample data
-            Button("Load Data") {
-                loadSampleData()
-            }
         }
-    }
-    
-    private func loadSampleData() {
-        // Simulate loading data from API
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        if let productDetailsArray = viewModel.productDetails {
-            
-            for productDetails in productDetailsArray {
-                if let historicalPrices = viewModel.historicalPrices[productDetails.asin] {
-                    let sortedPrices = historicalPrices.sorted(by: { $0.key < $1.key })
-                    for (date, price) in sortedPrices {
-                        let chartEntry = ChartData(date: date, price: Double(price))
-                        chartData.append(chartEntry)
-                    }
-                }
-            }
+        .onAppear {
+            loadChartData()
+
+               }
         }
-        
-//        chartData = [
-//            ChartData(date: dateFormatter.date(from: "2024-03-16")!, price: 15.0),
-//            ChartData(date: dateFormatter.date(from: "2024-04-01")!, price: 16.0),
-//            ChartData(date: dateFormatter.date(from: "2024-04-16")!, price: 14.0),
-//            ChartData(date: dateFormatter.date(from: "2024-05-01")!, price: 17.0),
-//            ChartData(date: dateFormatter.date(from: "2024-05-16")!, price: 18.0),
-//            ChartData(date: dateFormatter.date(from: "2024-06-01")!, price: 19.0)
-//        ]
-    }
     
+        private func loadChartData() {
+            let sortedPrices = historicalPrices.sorted(by: { $0.key < $1.key })
+            chartData = sortedPrices.map { ChartData(date: $0.key, price: Double($0.value)) }
+        }
   
     
     private func findClosestData(to date: Date) -> ChartData? {
@@ -92,6 +70,6 @@ struct ChartView: View {
 }
 
 #Preview {
-    ChartView()
+    ChartView(historicalPrices: [Date(): 9])
 }
 
