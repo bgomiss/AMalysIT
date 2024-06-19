@@ -21,7 +21,7 @@ struct ChartView: View {
             if let selectedDate = selectedDate, let selectedPrice = selectedPrice {
                 Text("Selected Date: \(selectedDate, formatter: Helper.dateFormatter)")
                 Text("Selected Price: \(selectedPrice, specifier: "%.2f")")
-            } 
+            }
 
 
             Chart {

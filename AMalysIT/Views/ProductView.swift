@@ -10,10 +10,19 @@ import SwiftUI
 struct ProductView: View {
     @StateObject var viewModel = ProductViewModel()
     @State var parameters: GraphImageParameters?
+    @State private var searchQuery: String = ""
     
     var body: some View {
         NavigationStack {
+            
             List {
+                TextField("Enter search term", text: $searchQuery, onCommit: {
+                        if !searchQuery.isEmpty {
+                            viewModel.fetch(for: .productSearch(searchQuery))
+                    }
+                })
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .padding()
                 productDetailsSection
             }
             .toolbar {
@@ -24,7 +33,7 @@ struct ProductView: View {
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                viewModel.fetch(for: .productSearch("lotion"))
+                //viewModel.fetch(for: .productSearch("lotion"))
             }
             .onChange(of: viewModel.productDetails ?? []) { _ ,newProductDetails in
                 fetchImages(for: newProductDetails)
@@ -38,6 +47,8 @@ struct ProductView: View {
             if let productDetailsArray = viewModel.productDetails {
                 ForEach(productDetailsArray, id: \.self) { productDetails in
                     VStack {
+                        
+                        
                         if !productDetails.imagesCSV.isEmpty {
                             let imageUrls = productDetails.imageUrls
                             URLImage(urlStrings: imageUrls)
@@ -66,7 +77,7 @@ struct ProductView: View {
                         
                         if let historicalPrices = viewModel.historicalPrices[productDetails.asin] {
                             ForEach(historicalPrices.sorted(by: { $0.key < $1.key }), id: \.key) { date, price in
-                                Text("Price: \(Helper.formattedPrice(from: price)) - Date: \(date, formatter: Helper.dateFormatter)")
+                                //Text("Price: \(Helper.formattedPrice(from: price)) - Date: \(date, formatter: Helper.dateFormatter)")
                             }
                         }
                     }

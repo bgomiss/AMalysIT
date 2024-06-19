@@ -14,7 +14,7 @@ class ProductViewModel: ObservableObject {
     @Published var productDetails: [ProductDetails]?
     @Published var graphImageUrlStrings: [String:String] = [:]
     @Published var historicalPrices: [String: [Date:Int]] = [:]
-
+    // https://api.keepa.com/product?key=9tgukcnao7s3obobhbrvu45d58mree8l3reit6sur9bk9ba4mehqprpsou5ikml4&domain=2&asin=B01GTROY0Y&buybox=1&stats=1&offers=20&only-live-offers=1&stock=1
     
     enum EndPoint {
         case productSearch(String)
@@ -27,7 +27,7 @@ class ProductViewModel: ObservableObject {
             case .imageGraph(let parameters):
                 return "https://api.keepa.com/graphimage?key=\(API.apiKey)&domain=2&asin=\(parameters.asin)&fba=1&bb=1"
             case .singleProductDetails(let asin):
-                return "https://api.keepa.com/product?key=\(API.apiKey)&domain=2&asin=\(asin.asin)&buybox=1&stats=1&&offers=4"
+                return "https://api.keepa.com/product?key=\(API.apiKey)&domain=2&asin=\(asin.asin)&buybox=1&stats=1&offers=20&only-live-offers=1&stock=1"
             }
         }
     }

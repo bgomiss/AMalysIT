@@ -36,6 +36,13 @@ struct ProductDetails: Hashable, Codable {
     let description: String?
     let variations: [Variation]?
     let stats: Stats?
+    let offers: [Offers]?
+    
+struct Offers: Hashable, Codable {
+    let sellerId: String
+    let offerCSV: [Int]
+    let stockCSV: [Int]
+    }
     
     var imageUrls: [String] {
             // Base URL for the images
